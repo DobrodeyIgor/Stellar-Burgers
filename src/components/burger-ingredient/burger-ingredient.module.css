@@ -1,0 +1,27 @@
+.ingredient {
+  background-color: transparent;
+  border: none;
+  width: calc(50% - 24px);
+  cursor: pointer;
+  position: relative;
+}
+
+.ingredient__name {
+  margin-top: 4px;
+  min-height: 48px;
+  text-align: center;
+}
+
+.ingredient__image {
+  width: calc(100% - 32px);
+  margin: 0 auto;
+  display: block;
+}
+
+.ingredient__currency {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4px;
+  gap: 9px;
+}

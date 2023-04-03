@@ -1,7 +1,11 @@
 const ingredientsRoute = "https://norma.nomoreparties.space/api/ingredients";
 
 export const fetchIngredients = () => {
-  return fetch(ingredientsRoute, {
-    method: "GET",
-  }).then((res) => res.json());
+  try {
+    return fetch(ingredientsRoute, {
+      method: "GET",
+    }).then((res) => res.json());
+  } catch {
+    throw new Error("fetchIngredients");
+  }
 };
