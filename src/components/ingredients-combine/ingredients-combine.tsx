@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Container } from "../container/container";
 import { BurgerIngredients } from "../burger-ingredients/burger-ingredients";
 import { BurgerConstructor } from "../burger-constructor/burger-constructor";
-import { fetchIngredients } from "../../services/ingredients.service";
+import { fetchIngredients } from "../../api/ingredients.service";
 import "@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css";
 import "@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css";
 

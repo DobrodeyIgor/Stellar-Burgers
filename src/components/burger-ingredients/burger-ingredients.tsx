@@ -8,8 +8,28 @@ import styles from "./burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { BurgerIngredient } from "../burger-ingredient/burger-ingredient";
 import { ingredientType } from "../../types/ingredient";
+import { Modal } from "../modal/modal";
+import { IngredientDetail } from "../ingredient-detail/ingredient-detail";
+import { useDispatch } from "react-redux";
+import {
+  removeSelectedIngredient,
+  setSelectedIngredient,
+} from "../../services/selected-ingredient/selected-ingredient.slice";
 
 export const BurgerIngredients = ({ ingredients = [], className = "" }) => {
+  const [openDetail, setOpenDetail] = useState(false);
+  const dispatch = useDispatch();
+
+  const handleCloseDetail = () => {
+    dispatch(removeSelectedIngredient());
+    setOpenDetail(false);
+  };
+
+  const handleOpenDetail = (ingredient) => {
+    dispatch(setSelectedIngredient(ingredient));
+    setOpenDetail(true);
+  };
+
   const [current, setCurrent] = useState("bun");
   const burgerTabs = [
     { value: "bun", label: "Булки" },
@@ -50,12 +70,21 @@ export const BurgerIngredients = ({ ingredients = [], className = "" }) => {
             </h2>
             <div className={styles["section__ingredients"]}>
               {data.map((item) => (
-                <BurgerIngredient key={item._id} ingredient={item} />
+                <BurgerIngredient
+                  openDetailModal={handleOpenDetail}
+                  key={item._id}
+                  ingredient={item}
+                />
               ))}
             </div>
           </Fragment>
         ))}
       </div>
+      {openDetail && (
+        <Modal title='Детали ингредиента' onClose={handleCloseDetail}>
+          <IngredientDetail />
+        </Modal>
+      )}
     </section>
   );
 };

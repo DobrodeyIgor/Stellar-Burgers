@@ -3,57 +3,46 @@ import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useState } from "react";
+import React from "react";
+import PropTypes from "prop-types";
 import styles from "./burger-ingredient.module.css";
-import { Modal } from "../modal/modal";
-import { IngredientDetail } from "../ingredient-detail/ingredient-detail";
 import { ingredientType } from "../../types/ingredient";
 
-export const BurgerIngredient = ({ ingredient }) => {
-  const [openDetail, setOpenDetail] = useState(false);
-  const handleCloseDetail = () => {
-    setOpenDetail(false);
-  };
-
+export const BurgerIngredient = ({ ingredient, openDetailModal }) => {
   const handleOpenDetail = () => {
-    setOpenDetail(true);
+    openDetailModal(ingredient);
   };
-
   return (
-    <button
-      onClick={handleOpenDetail}
-      type='button'
-      key={ingredient._id}
-      className={styles["ingredient"]}
-    >
-      <Counter count={1} />
-      <img
-        className={styles["ingredient__image"]}
-        src={ingredient.image}
-        alt={ingredient.name}
-      />
-      <div className={styles["ingredient__currency"]}>
-        <span className='text text_type_digits-default text_color_primary'>
-          {ingredient.price}
-        </span>
-        <CurrencyIcon type='primary' />
-      </div>
-      <h3
-        className={`text text_type_main-small text_color_primary ${styles["ingredient__name"]}`}
+    <>
+      <button
+        onClick={handleOpenDetail}
+        type='button'
+        key={ingredient._id}
+        className={styles["ingredient"]}
       >
-        {ingredient.name}
-      </h3>
-      <Modal
-        open={openDetail}
-        title='Детали ингредиента'
-        onClose={handleCloseDetail}
-      >
-        <IngredientDetail ingredient={ingredient} />
-      </Modal>
-    </button>
+        <Counter count={1} />
+        <img
+          className={styles["ingredient__image"]}
+          src={ingredient.image}
+          alt={ingredient.name}
+        />
+        <div className={styles["ingredient__currency"]}>
+          <span className='text text_type_digits-default text_color_primary'>
+            {ingredient.price}
+          </span>
+          <CurrencyIcon type='primary' />
+        </div>
+        <h3
+          className={`text text_type_main-small text_color_primary ${styles["ingredient__name"]}`}
+        >
+          {ingredient.name}
+        </h3>
+      </button>
+    </>
   );
 };
 
 BurgerIngredient.propTypes = {
-  ingredient: ingredientType,
+  ingredient: ingredientType.isRequired,
+  openDetailModal: PropTypes.func,
 };

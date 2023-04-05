@@ -17,7 +17,7 @@ import { ingredientType } from "../../types/ingredient";
 const ORDER_ID = "034536";
 
 export const BurgerConstructor = ({ ingredients = [], className = "" }) => {
-  const [order, setOrder] = useState({
+  const [order] = useState({
     bun: "60d3b41abdacab0026a733c6",
     main: [
       "60d3b41abdacab0026a733c8",
@@ -38,7 +38,7 @@ export const BurgerConstructor = ({ ingredients = [], className = "" }) => {
   };
   useEffect(() => {
     const orderToIngredients = order.main.map((orderId) =>
-      ingredients.find((item) => item._id === orderId)
+      ingredients.find((item) => item._id === orderId),
     );
     const orderBun = ingredients.find((item) => item._id === order.bun);
     setOrderList({
@@ -97,9 +97,11 @@ export const BurgerConstructor = ({ ingredients = [], className = "" }) => {
         >
           Оформить заказ
         </Button>
-        <Modal open={openModalOrder} onClose={handleCloseOrderModal}>
-          <OrderDetail orderId={ORDER_ID} />
-        </Modal>
+        {openModalOrder && (
+          <Modal onClose={handleCloseOrderModal}>
+            <OrderDetail orderId={ORDER_ID} />
+          </Modal>
+        )}
       </div>
     </section>
   );

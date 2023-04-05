@@ -3,9 +3,11 @@ import React from "react";
 import styles from "./ingredient-detail.module.css";
 import "@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css";
 import "@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css";
-import { ingredientType } from "../../types/ingredient";
+import { useSelector } from "react-redux";
 
-export const IngredientDetail = ({ ingredient }) => {
+export const IngredientDetail = () => {
+  const { ingredient } = useSelector((store) => store.selectedIngredient);
+
   return (
     <div className={styles["ingredient"]}>
       <img
@@ -54,8 +56,4 @@ export const IngredientDetail = ({ ingredient }) => {
       </div>
     </div>
   );
-};
-
-IngredientDetail.propTypes = {
-  ingredient: ingredientType,
 };
