@@ -7,37 +7,22 @@
   padding-bottom: 52px;
   padding-left: 16px;
   padding-right: 16px;
+  -ms-overflow-style: none;
 }
 
-.section__item {
-  display: flex;
-  align-items: center;
-}
-
-.section__item:not(:first-child) {
-  margin-top: 16px;
-}
-
-.section__item-drag {
-  width: 32px;
+.section::-webkit-scrollbar {
+  display: none;
 }
 
 .section__list {
   flex: 1;
-  overflow-y: scroll;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
 }
 
-.section__sublist {
+.section__sub-list {
   margin-top: 16px;
   flex: 1;
   overflow-y: scroll;
-}
-
-.section__amount {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 40px;
-  align-items: center;
 }

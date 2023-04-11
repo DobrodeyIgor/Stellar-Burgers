@@ -17,9 +17,18 @@ export const burgerConstructorSlice = createSlice({
         state.constructorMain = [...state.constructorMain, action.payload];
       }
     },
+    removeMainIngredient: (state, action) => {
+      state.constructorMain = state.constructorMain.filter(
+        (_, i) => i !== action.payload,
+      );
+    },
+    setMain: (state, action) => {
+      state.constructorMain = action.payload;
+    },
   },
 });
 
-export const { addToConstructor } = burgerConstructorSlice.actions;
+export const { addToConstructor, removeMainIngredient, setMain } =
+  burgerConstructorSlice.actions;
 
 export default burgerConstructorSlice.reducer;

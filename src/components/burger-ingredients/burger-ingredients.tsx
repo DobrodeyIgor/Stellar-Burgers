@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { Fragment, useState } from "react";
+import React, { useState, useEffect } from "react";
 import "@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css";
 import "@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css";
 import PropTypes from "prop-types";
@@ -15,10 +15,21 @@ import {
   removeSelectedIngredient,
   setSelectedIngredient,
 } from "../../services/selected-ingredient/selected-ingredient.slice";
+import { useInView } from "react-intersection-observer";
 
 export const BurgerIngredients = ({ ingredients = [], className = "" }) => {
   const [openDetail, setOpenDetail] = useState(false);
   const dispatch = useDispatch();
+
+  const [bunRef, bunInView] = useInView({
+    threshold: 0.1,
+  });
+  const [sauceRef, sauceInView] = useInView({
+    threshold: 0.1,
+  });
+  const [mainRef, mainInView] = useInView({
+    threshold: 0.1,
+  });
 
   const handleCloseDetail = () => {
     dispatch(removeSelectedIngredient());
@@ -43,6 +54,34 @@ export const BurgerIngredients = ({ ingredients = [], className = "" }) => {
     };
   });
 
+  const onTabScroll = (type: string) => {
+    setCurrent(type);
+    const section: HTMLElement | null = document.getElementById(type);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
+  const handleIngredientScroll = () => {
+    switch (true) {
+      case bunInView:
+        setCurrent("bun");
+        break;
+      case sauceInView:
+        setCurrent("sauce");
+        break;
+      case mainInView:
+        setCurrent("main");
+        break;
+      default:
+        break;
+    }
+  };
+
+  useEffect(() => {
+    handleIngredientScroll();
+  }, [bunInView, sauceInView, mainInView]);
+
   return (
     <section className={`${styles["section"]} pt-10  ${className}`}>
       <h1 className='text text_type_main-large'>Соберите бургер</h1>
@@ -52,7 +91,7 @@ export const BurgerIngredients = ({ ingredients = [], className = "" }) => {
             key={value}
             value={value}
             active={current === value}
-            onClick={setCurrent}
+            onClick={onTabScroll}
           >
             {label}
           </Tab>
@@ -62,7 +101,13 @@ export const BurgerIngredients = ({ ingredients = [], className = "" }) => {
         className={`${styles["section__ingredients-list"]} mt-5 custom-scroll`}
       >
         {ingredientsData.map(({ value, data, label }) => (
-          <Fragment key={value}>
+          <div
+            id={value}
+            ref={
+              value === "bun" ? bunRef : value === "sauce" ? sauceRef : mainRef
+            }
+            key={value}
+          >
             <h2
               className={`text text_type_main-medium ${styles["sections__ingredients-label"]}`}
             >
@@ -77,7 +122,7 @@ export const BurgerIngredients = ({ ingredients = [], className = "" }) => {
                 />
               ))}
             </div>
-          </Fragment>
+          </div>
         ))}
       </div>
       {openDetail && (

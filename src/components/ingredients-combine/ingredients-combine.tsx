@@ -8,6 +8,8 @@ import "@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css";
 
 import styles from "./ingredients-combine.module.css";
 import { Loader } from "../loader/loader";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 export const IngredientsCombine = () => {
   const [ingredients, setIngredients] = useState([]);
@@ -32,7 +34,7 @@ export const IngredientsCombine = () => {
   if (isLoading) {
     return (
       <div className={styles["combine__loader"]}>
-        <Loader />;
+        <Loader />
       </div>
     );
   }
@@ -48,15 +50,14 @@ export const IngredientsCombine = () => {
   }
 
   return (
-    <Container component='main' className={styles["combine"]}>
-      <BurgerIngredients
-        ingredients={ingredients}
-        className={styles["combine-item"]}
-      />
-      <BurgerConstructor
-        ingredients={ingredients}
-        className={styles["combine-item"]}
-      />
-    </Container>
+    <DndProvider backend={HTML5Backend}>
+      <Container component='main' className={styles["combine"]}>
+        <BurgerIngredients
+          ingredients={ingredients}
+          className={styles["combine-item"]}
+        />
+        <BurgerConstructor className={styles["combine-item"]} />
+      </Container>
+    </DndProvider>
   );
 };

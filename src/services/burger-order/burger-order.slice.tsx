@@ -1,20 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  order: [],
+  order: undefined,
 };
 
 export const burgerOrderSlice = createSlice({
   name: "burger-order",
   initialState,
   reducers: {
-    addToOrder: (state, action) => {
-      state.order = [];
+    setOrder: (state, action) => {
+      state.order = action.payload;
     },
-    removeToOrder: (state, action) => {},
+    removeOrder: (state) => {
+      state.order = undefined;
+    },
   },
 });
 
-export const { addToOrder, removeToOrder } = burgerOrderSlice.actions;
+export const { setOrder, removeOrder } = burgerOrderSlice.actions;
 
 export default burgerOrderSlice.reducer;
