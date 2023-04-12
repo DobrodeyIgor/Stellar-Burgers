@@ -7,17 +7,17 @@ import PropTypes from "prop-types";
 import styles from "./burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { BurgerIngredient } from "../burger-ingredient/burger-ingredient";
-import { ingredientType } from "../../types/ingredient";
 import { Modal } from "../modal/modal";
 import { IngredientDetail } from "../ingredient-detail/ingredient-detail";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   removeSelectedIngredient,
   setSelectedIngredient,
 } from "../../services/selected-ingredient/selected-ingredient.slice";
 import { useInView } from "react-intersection-observer";
 
-export const BurgerIngredients = ({ ingredients = [], className = "" }) => {
+export const BurgerIngredients = ({ className = "" }) => {
+  const { ingredients } = useSelector((state) => state.ingredients);
   const [openDetail, setOpenDetail] = useState(false);
   const dispatch = useDispatch();
 
@@ -135,6 +135,5 @@ export const BurgerIngredients = ({ ingredients = [], className = "" }) => {
 };
 
 BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientType),
   className: PropTypes.string,
 };

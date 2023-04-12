@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { createSlice } from "@reduxjs/toolkit";
-
+import { v4 as uuidv4 } from "uuid";
 const initialState = {
   constructorBun: undefined,
   constructorMain: [],
@@ -11,15 +11,17 @@ export const burgerConstructorSlice = createSlice({
   initialState,
   reducers: {
     addToConstructor: (state, action) => {
-      if (action.payload.type === "bun") {
-        state.constructorBun = action.payload;
+      const uuid = uuidv4();
+      const currentItem = { ...action.payload, uuid };
+      if (currentItem.type === "bun") {
+        state.constructorBun = currentItem;
       } else {
-        state.constructorMain = [...state.constructorMain, action.payload];
+        state.constructorMain = [...state.constructorMain, currentItem];
       }
     },
     removeMainIngredient: (state, action) => {
       state.constructorMain = state.constructorMain.filter(
-        (_, i) => i !== action.payload,
+        (item) => item.uuid !== action.payload
       );
     },
     setMain: (state, action) => {

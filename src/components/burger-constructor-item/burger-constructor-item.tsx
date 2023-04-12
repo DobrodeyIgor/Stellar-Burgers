@@ -9,17 +9,16 @@ import { ingredientType } from "../../types/ingredient";
 
 import styles from "./burger-constructor-item.module.css";
 import { useDrag, useDrop } from "react-dnd";
+import { useDispatch } from "react-redux";
+import { removeMainIngredient } from "../../services/burger-constructor/burger-constructor.slice";
 
 export const BurgerConstructorItem = React.memo(
-  ({
-    item,
-    type,
-    isLocked = false,
-    handleClose,
-    findIngredient,
-    moveIngredient,
-  }) => {
-    const originalIndex = findIngredient(item._id).index;
+  ({ item, type, isLocked = false, findIngredient, moveIngredient }) => {
+    const dispatch = useDispatch();
+    const handleRemoveIngredient = () => {
+      dispatch(removeMainIngredient(item.uuid));
+    };
+    const originalIndex = findIngredient(item.uuid).index;
     const [{ isDragging }, drag] = useDrag(
       () => ({
         type: "switch",
@@ -28,7 +27,7 @@ export const BurgerConstructorItem = React.memo(
           isDragging: monitor.isDragging(),
         }),
         end: (item, monitor) => {
-          const { _id: droppedId, originalIndex } = item;
+          const { uuid: droppedId, originalIndex } = item;
           const didDrop = monitor.didDrop();
           if (!didDrop) {
             moveIngredient(droppedId, originalIndex);
@@ -40,9 +39,9 @@ export const BurgerConstructorItem = React.memo(
     const [, drop] = useDrop(
       () => ({
         accept: "switch",
-        hover({ _id: draggedId }) {
-          if (draggedId !== item._id) {
-            const { index: overIndex } = findIngredient(item._id);
+        hover({ uuid: draggedId }) {
+          if (draggedId !== item.uuid) {
+            const { index: overIndex } = findIngredient(item.uuid);
             moveIngredient(draggedId, overIndex);
           }
         },
@@ -52,7 +51,7 @@ export const BurgerConstructorItem = React.memo(
     const opacity = isDragging ? 0 : 1;
     return (
       <div
-        ref={(node) => drag(drop(node))}
+        ref={isLocked ? undefined : (node) => drag(drop(node))}
         className={styles["item"]}
         style={{ opacity }}
       >
@@ -63,7 +62,7 @@ export const BurgerConstructorItem = React.memo(
           text={item.name}
           price={item.price}
           thumbnail={item.image}
-          handleClose={handleClose}
+          handleClose={handleRemoveIngredient}
         />
       </div>
     );
@@ -74,7 +73,6 @@ BurgerConstructorItem.propTypes = {
   item: ingredientType.isRequired,
   type: PropTypes.string,
   isLocked: PropTypes.bool,
-  handleClose: PropTypes.func,
   findIngredient: PropTypes.func,
   moveIngredient: PropTypes.func,
 };

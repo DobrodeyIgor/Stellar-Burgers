@@ -1,7 +1,8 @@
-const ingredientsRoute = "https://norma.nomoreparties.space/api/ingredients";
+import { BASE_URL, checkResponse } from "./";
+const ingredientsRoute = "ingredients";
 
 export const fetchIngredients = () => {
-  return fetch(ingredientsRoute, {
+  return fetch(BASE_URL + ingredientsRoute, {
     method: "GET",
-  }).then((res) => res.json());
+  }).then(checkResponse);
 };

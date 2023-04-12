@@ -1,34 +1,39 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchIngredients } from "../../api/ingredients.service";
+
+export const fetchAllIngredientsThunk = createAsyncThunk(
+  "ingredients/fetchAll",
+  async () => {
+    const response = await fetchIngredients();
+    return response.data;
+  }
+);
 
 const initialState = {
   ingredients: [],
-  isError: false,
   isLoading: false,
+  isError: false,
 };
 
 export const ingredientsSlice = createSlice({
   name: "ingredients",
   initialState,
-  reducers: {
-    fetchAll: (state) => {
-      state.isLoading = true;
-      fetchIngredients()
-        .then((res) => {
-          if (!res.success) {
-            state.isError = true;
-          } else {
-            state.ingredients = res.data;
-          }
-        })
-        .catch(() => {
-          state.isError = true;
-        })
-        .finally(() => (state.isLoading = false));
-    },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchAllIngredientsThunk.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchAllIngredientsThunk.fulfilled, (state, action) => {
+        state.ingredients = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(fetchAllIngredientsThunk.rejected, (state) => {
+        state.isError = true;
+      });
   },
 });
 
-export const { fetchAll } = ingredientsSlice.actions;
+export const {} = ingredientsSlice.actions;
 
 export default ingredientsSlice.reducer;

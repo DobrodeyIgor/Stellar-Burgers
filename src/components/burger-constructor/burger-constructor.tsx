@@ -38,8 +38,8 @@ export const BurgerConstructor = ({ className = "" }) => {
   );
 
   const findIngredient = useCallback(
-    (id) => {
-      const ingredient = constructorMain.filter((c) => `${c._id}` === id)[0];
+    (uuid) => {
+      const ingredient = constructorMain.filter((c) => c.uuid === uuid)[0];
       return {
         ingredient,
         index: constructorMain.indexOf(ingredient),
@@ -48,8 +48,9 @@ export const BurgerConstructor = ({ className = "" }) => {
     [constructorMain]
   );
   const moveIngredient = useCallback(
-    (id, atIndex) => {
-      const { ingredient, index } = findIngredient(id);
+    (uuid, atIndex) => {
+      const { ingredient, index } = findIngredient(uuid);
+      console.log(ingredient, index, atIndex);
       dispatch(
         setMain(
           update(constructorMain, {
@@ -65,10 +66,6 @@ export const BurgerConstructor = ({ className = "" }) => {
     [findIngredient, constructorMain]
   );
 
-  const handleRemoveIngredient = (index) => {
-    dispatch(removeMainIngredient(index));
-  };
-
   return (
     <section ref={drop} className={`${styles["section"]} pt-25 ${className}`}>
       <div className={`${styles["section__list"]} `}>
@@ -76,7 +73,7 @@ export const BurgerConstructor = ({ className = "" }) => {
           <BurgerConstructorItem
             isLocked
             type='top'
-            item={constructorBun}
+            item={{ ...constructorBun, name: constructorBun.name + " (верх)" }}
             findIngredient={findIngredient}
             moveIngredient={moveIngredient}
           />
@@ -84,9 +81,8 @@ export const BurgerConstructor = ({ className = "" }) => {
         <div className={`${styles["section__sub-list"]} custom-scroll`}>
           {constructorMain.map((item, i) => (
             <BurgerConstructorItem
-              key={item._id + i}
+              key={item.uuid}
               item={item}
-              handleClose={() => handleRemoveIngredient(i)}
               findIngredient={findIngredient}
               moveIngredient={moveIngredient}
             />
@@ -96,7 +92,7 @@ export const BurgerConstructor = ({ className = "" }) => {
           <BurgerConstructorItem
             isLocked
             type='bottom'
-            item={constructorBun}
+            item={{ ...constructorBun, name: constructorBun.name + " (низ)" }}
             findIngredient={findIngredient}
             moveIngredient={moveIngredient}
           />
