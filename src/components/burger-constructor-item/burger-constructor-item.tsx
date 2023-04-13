@@ -10,7 +10,7 @@ import { ingredientType } from "../../types/ingredient";
 import styles from "./burger-constructor-item.module.css";
 import { useDrag, useDrop } from "react-dnd";
 import { useDispatch } from "react-redux";
-import { removeMainIngredient } from "../../services/burger-constructor/burger-constructor.slice";
+import { removeMainIngredient } from "../../services/slice/burger-constructor.slice";
 
 export const BurgerConstructorItem = React.memo(
   ({ item, type, isLocked = false, findIngredient, moveIngredient }) => {

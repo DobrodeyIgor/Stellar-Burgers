@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   removeSelectedIngredient,
   setSelectedIngredient,
-} from "../../services/selected-ingredient/selected-ingredient.slice";
+} from "../../services/slice/selected-ingredient.slice";
 import { useInView } from "react-intersection-observer";
 
 export const BurgerIngredients = ({ className = "" }) => {

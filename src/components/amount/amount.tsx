@@ -9,12 +9,11 @@ import {
 import { Modal } from "../modal/modal";
 import { OrderDetail } from "../order-detail/order-detail";
 import { useDispatch, useSelector } from "react-redux";
-import { sendOrder } from "../../api/order.service";
-import { setOrder } from "../../services/burger-order/burger-order.slice";
+import { sendOrderThunk } from "../../services/actions/burger-order.actions";
 
 export const Amount = () => {
   const { constructorBun, constructorMain } = useSelector(
-    (state) => state.burgerConstructor,
+    (state) => state.burgerConstructor
   );
   const dispatch = useDispatch();
   const [openModalOrder, setModalOrder] = useState(false);
@@ -24,11 +23,7 @@ export const Amount = () => {
       constructorBun?._id,
       ...constructorMain.map((item) => item._id),
     ].filter((item) => item !== undefined);
-    sendOrder(idsForOrders)
-      .then((res) => dispatch(setOrder(res)))
-      .catch(() => {
-        console.log("error");
-      });
+    dispatch(sendOrderThunk(idsForOrders));
 
     setModalOrder(true);
   };
@@ -40,7 +35,7 @@ export const Amount = () => {
   const data = useMemo(() => {
     const mainSum = constructorMain.reduce(
       (prev, current) => (prev += current.price),
-      0,
+      0
     );
     const isDisabled = !constructorBun && constructorMain.length === 0;
     const sum = (constructorBun?.price ?? 0) + mainSum;

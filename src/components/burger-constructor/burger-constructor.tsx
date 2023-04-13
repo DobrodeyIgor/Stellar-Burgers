@@ -12,7 +12,7 @@ import {
   addToConstructor,
   removeMainIngredient,
   setMain,
-} from "../../services/burger-constructor/burger-constructor.slice";
+} from "../../services/slice/burger-constructor.slice";
 import { BurgerConstructorItem } from "../burger-constructor-item/burger-constructor-item";
 import { Amount } from "../amount/amount";
 

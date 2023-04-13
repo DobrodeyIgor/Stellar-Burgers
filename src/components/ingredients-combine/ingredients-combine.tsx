@@ -11,7 +11,7 @@ import { Loader } from "../loader/loader";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllIngredientsThunk } from "../../services/ingredients/ingredients.slice";
+import { fetchAllIngredientsThunk } from "../../services/actions/ingredients.actions";
 
 export const IngredientsCombine = () => {
   const { isLoading, isError } = useSelector((state) => state.ingredients);
