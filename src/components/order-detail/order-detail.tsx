@@ -9,16 +9,18 @@ import { useSelector } from "react-redux";
 import { Loader } from "../loader/loader";
 
 export const OrderDetail = () => {
-  const { order } = useSelector((state) => state.burgerOrder);
+  const { order, isLoading, isError } = useSelector(
+    (state) => state.burgerOrder,
+  );
 
-  if (!order) {
+  if (isLoading) {
     <div className={styles["order"]}>
       <Loader />
     </div>;
   }
   return (
     <div className={styles["order"]}>
-      {order?.success ? (
+      {!isError ? (
         <>
           <p className='text text_type_digits-large'>{order.order.number}</p>
           <p className={`${styles["order__id"]} text text_type_main-medium`}>

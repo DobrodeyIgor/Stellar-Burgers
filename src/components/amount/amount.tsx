@@ -9,8 +9,7 @@ import {
 import { Modal } from "../modal/modal";
 import { OrderDetail } from "../order-detail/order-detail";
 import { useDispatch, useSelector } from "react-redux";
-import { sendOrder } from "../../api/order.service";
-import { setOrder } from "../../services/burger-order/burger-order.slice";
+import { sendOderThunk } from "../../services/burger-order/burger-order.slice";
 
 export const Amount = () => {
   const { constructorBun, constructorMain } = useSelector(
@@ -24,11 +23,7 @@ export const Amount = () => {
       constructorBun?._id,
       ...constructorMain.map((item) => item._id),
     ].filter((item) => item !== undefined);
-    sendOrder(idsForOrders)
-      .then((res) => dispatch(setOrder(res)))
-      .catch(() => {
-        console.log("error");
-      });
+    dispatch(sendOderThunk(idsForOrders));
 
     setModalOrder(true);
   };
