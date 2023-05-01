@@ -1,0 +1,6 @@
+.amount {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 40px;
+  align-items: center;
+}

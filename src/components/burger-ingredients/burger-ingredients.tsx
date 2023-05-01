@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { Fragment, useState } from "react";
+import React, { useState, useEffect } from "react";
 import "@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css";
 import "@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css";
 import PropTypes from "prop-types";
@@ -7,9 +7,40 @@ import PropTypes from "prop-types";
 import styles from "./burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { BurgerIngredient } from "../burger-ingredient/burger-ingredient";
-import { ingredientType } from "../../types/ingredient";
+import { Modal } from "../modal/modal";
+import { IngredientDetail } from "../ingredient-detail/ingredient-detail";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  removeSelectedIngredient,
+  setSelectedIngredient,
+} from "../../services/slice/selected-ingredient.slice";
+import { useInView } from "react-intersection-observer";
 
-export const BurgerIngredients = ({ ingredients = [], className = "" }) => {
+export const BurgerIngredients = ({ className = "" }) => {
+  const { ingredients } = useSelector((state) => state.ingredients);
+  const [openDetail, setOpenDetail] = useState(false);
+  const dispatch = useDispatch();
+
+  const [bunRef, bunInView] = useInView({
+    threshold: 0.1,
+  });
+  const [sauceRef, sauceInView] = useInView({
+    threshold: 0.1,
+  });
+  const [mainRef, mainInView] = useInView({
+    threshold: 0.1,
+  });
+
+  const handleCloseDetail = () => {
+    dispatch(removeSelectedIngredient());
+    setOpenDetail(false);
+  };
+
+  const handleOpenDetail = (ingredient) => {
+    dispatch(setSelectedIngredient(ingredient));
+    setOpenDetail(true);
+  };
+
   const [current, setCurrent] = useState("bun");
   const burgerTabs = [
     { value: "bun", label: "Булки" },
@@ -23,6 +54,34 @@ export const BurgerIngredients = ({ ingredients = [], className = "" }) => {
     };
   });
 
+  const onTabScroll = (type: string) => {
+    setCurrent(type);
+    const section: HTMLElement | null = document.getElementById(type);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
+  const handleIngredientScroll = () => {
+    switch (true) {
+      case bunInView:
+        setCurrent("bun");
+        break;
+      case sauceInView:
+        setCurrent("sauce");
+        break;
+      case mainInView:
+        setCurrent("main");
+        break;
+      default:
+        break;
+    }
+  };
+
+  useEffect(() => {
+    handleIngredientScroll();
+  }, [bunInView, sauceInView, mainInView]);
+
   return (
     <section className={`${styles["section"]} pt-10  ${className}`}>
       <h1 className='text text_type_main-large'>Соберите бургер</h1>
@@ -32,7 +91,7 @@ export const BurgerIngredients = ({ ingredients = [], className = "" }) => {
             key={value}
             value={value}
             active={current === value}
-            onClick={setCurrent}
+            onClick={onTabScroll}
           >
             {label}
           </Tab>
@@ -42,7 +101,13 @@ export const BurgerIngredients = ({ ingredients = [], className = "" }) => {
         className={`${styles["section__ingredients-list"]} mt-5 custom-scroll`}
       >
         {ingredientsData.map(({ value, data, label }) => (
-          <Fragment key={value}>
+          <div
+            id={value}
+            ref={
+              value === "bun" ? bunRef : value === "sauce" ? sauceRef : mainRef
+            }
+            key={value}
+          >
             <h2
               className={`text text_type_main-medium ${styles["sections__ingredients-label"]}`}
             >
@@ -50,17 +115,25 @@ export const BurgerIngredients = ({ ingredients = [], className = "" }) => {
             </h2>
             <div className={styles["section__ingredients"]}>
               {data.map((item) => (
-                <BurgerIngredient key={item._id} ingredient={item} />
+                <BurgerIngredient
+                  openDetailModal={handleOpenDetail}
+                  key={item._id}
+                  ingredient={item}
+                />
               ))}
             </div>
-          </Fragment>
+          </div>
         ))}
       </div>
+      {openDetail && (
+        <Modal title='Детали ингредиента' onClose={handleCloseDetail}>
+          <IngredientDetail />
+        </Modal>
+      )}
     </section>
   );
 };
 
 BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientType),
   className: PropTypes.string,
 };

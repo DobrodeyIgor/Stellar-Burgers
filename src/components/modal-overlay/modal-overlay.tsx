@@ -14,6 +14,7 @@ export const ModalOverlay = ({ children, onClose }) => {
     return () => {
       window.removeEventListener("keydown", escListener);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

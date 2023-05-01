@@ -3,30 +3,63 @@ import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useState } from "react";
+import React, { useMemo } from "react";
+import PropTypes from "prop-types";
 import styles from "./burger-ingredient.module.css";
-import { Modal } from "../modal/modal";
-import { IngredientDetail } from "../ingredient-detail/ingredient-detail";
 import { ingredientType } from "../../types/ingredient";
+import { useDrag } from "react-dnd";
+import { useSelector } from "react-redux";
 
-export const BurgerIngredient = ({ ingredient }) => {
-  const [openDetail, setOpenDetail] = useState(false);
-  const handleCloseDetail = () => {
-    setOpenDetail(false);
-  };
-
+export const BurgerIngredient = ({ ingredient, openDetailModal }) => {
+  const { constructorBun, constructorMain } = useSelector(
+    (state) => state.burgerConstructor,
+  );
   const handleOpenDetail = () => {
-    setOpenDetail(true);
+    openDetailModal(ingredient);
   };
+  const [{ isDragging }, drag] = useDrag(
+    () => ({
+      type: "add",
+      item: ingredient,
+      collect: (monitor) => ({
+        isDragging: monitor.isDragging(),
+      }),
+    }),
+    [],
+  );
+  const containerStyle = useMemo(
+    () => ({
+      opacity: isDragging ? 0.4 : 1,
+    }),
+    [isDragging],
+  );
+
+  const constructorCount = useMemo(() => {
+    if (ingredient.type === "bun") {
+      if (ingredient?._id === constructorBun?._id) {
+        return 1;
+      }
+    }
+    let sum = 0;
+    constructorMain.map((item) => {
+      if (item?._id === ingredient?._id) {
+        sum += 1;
+      }
+      return item;
+    });
+    return sum;
+  }, [constructorBun, constructorMain, ingredient]);
 
   return (
     <button
+      ref={drag}
+      style={containerStyle}
       onClick={handleOpenDetail}
       type='button'
       key={ingredient._id}
       className={styles["ingredient"]}
     >
-      <Counter count={1} />
+      {constructorCount > 0 && <Counter count={constructorCount} />}
       <img
         className={styles["ingredient__image"]}
         src={ingredient.image}
@@ -43,17 +76,11 @@ export const BurgerIngredient = ({ ingredient }) => {
       >
         {ingredient.name}
       </h3>
-      <Modal
-        open={openDetail}
-        title='Детали ингредиента'
-        onClose={handleCloseDetail}
-      >
-        <IngredientDetail ingredient={ingredient} />
-      </Modal>
     </button>
   );
 };
 
 BurgerIngredient.propTypes = {
-  ingredient: ingredientType,
+  ingredient: ingredientType.isRequired,
+  openDetailModal: PropTypes.func,
 };
