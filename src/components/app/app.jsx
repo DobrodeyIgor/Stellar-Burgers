@@ -1,10 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { AppHeader } from "../app-header/app-header";
 import { getIngredientsList } from "../../services/actions/ingredients-list";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { Modal } from "../../components/modal/modal";
+import { IngredientDetails } from "../../components/ingredient-details/ingredient-details";
 import { DndProvider } from "react-dnd";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, useLocation, useHistory } from "react-router-dom";
 import { ProtectedRoute } from "../protected-route";
 import {
   Main,
@@ -19,15 +21,22 @@ import {
 
 export function App() {
   const dispatch = useDispatch();
+  const history = useHistory();
+  const location = useLocation();
+  const background = location.state && location.state.background;
 
   useEffect(() => {
     dispatch(getIngredientsList());
   }, [dispatch]);
 
+  const closeIngredientsModal = useCallback(() => {
+    history.push("/");
+  }, []);
+
   return (
     <DndProvider backend={HTML5Backend}>
       <AppHeader />
-      <Switch>
+      <Switch location={background || location}>
         <Route path='/' exact={true} component={Main} />
         <Route path='/login' exact={true} component={LoginPage} />
         <Route path='/register' exact={true} component={Registration} />
@@ -46,6 +55,15 @@ export function App() {
         <ProtectedRoute path='/ingredients/:id' component={IngredientPage} />
         <Route component={PageNotFound} />
       </Switch>
+      {background && (
+        <>
+          <Route path='/ingredients/:id'>
+            <Modal onClose={closeIngredientsModal} title='Детали ингредиента'>
+              <IngredientDetails />
+            </Modal>
+          </Route>
+        </>
+      )}
     </DndProvider>
   );
 }

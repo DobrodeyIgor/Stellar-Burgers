@@ -7,19 +7,21 @@ import {
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { setIgredientDetails } from "../../services/actions/ingredient-details";
+import { Link, useLocation } from "react-router-dom";
 import { ingredientType } from "../../utils/prop-types";
 
 export function IngredientCard({ ingredient }) {
   const elements = useSelector(
-    (state) => state.constructorList.constructorList,
+    (state) => state.constructorList.constructorList
   );
   const buns = useSelector((state) => state.constructorList.buns);
+  const location = useLocation();
 
   const count = useMemo(
     () =>
       elements.filter((element) => element._id === ingredient._id).length ||
       buns.filter((element) => element._id === ingredient._id).length * 2,
-    [buns, elements, ingredient._id],
+    [buns, elements, ingredient._id]
   );
 
   const dispatch = useDispatch();
@@ -36,27 +38,35 @@ export function IngredientCard({ ingredient }) {
         type: ingredient.type,
       },
     }),
-    [],
+    []
   );
 
   return (
-    <button
+    <Link
       className={styles.cardButton}
-      onClick={handleIngredientClick}
-      ref={dragIngredient}
+      to={{
+        pathname: `/ingredients/${ingredient._id}`,
+        state: { background: location },
+      }}
     >
-      <img src={ingredient.image} alt={ingredient.name} />
-      {count > 0 ? (
-        <Counter id={ingredient._id} count={count} size='small' />
-      ) : null}
-      <div className={styles.priceBlock}>
-        <p className='text text_type_digits-default pt-2 pr-2'>
-          {ingredient.price}
-        </p>
-        <CurrencyIcon type='primary' />
-      </div>
-      <h3 className='text text_type_main-default pt-2'>{ingredient.name}</h3>
-    </button>
+      <button
+        className={styles.cardButton}
+        onClick={handleIngredientClick}
+        ref={dragIngredient}
+      >
+        <img src={ingredient.image} alt={ingredient.name} />
+        {count > 0 ? (
+          <Counter id={ingredient._id} count={count} size='small' />
+        ) : null}
+        <div className={styles.priceBlock}>
+          <p className='text text_type_digits-default pt-2 pr-2'>
+            {ingredient.price}
+          </p>
+          <CurrencyIcon type='primary' />
+        </div>
+        <h3 className='text text_type_main-default pt-2'>{ingredient.name}</h3>
+      </button>
+    </Link>
   );
 }
 

@@ -1,15 +1,15 @@
 import { Route, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-export const ProtectedRoute = (props) => {
+export const ProtectedRoute = ({ component, path }) => {
   const authorization = useSelector((state) => state.getLogin.login);
 
   if (!authorization) {
     return (
-      <Route path={props.path} exact={props.exact}>
+      <Route path={path} component={component}>
         <Redirect to={"/login?retpath=/profile"} />
       </Route>
     );
   }
-  return <Route {...props} />;
+  return <Route path={path} component={component} />;
 };
