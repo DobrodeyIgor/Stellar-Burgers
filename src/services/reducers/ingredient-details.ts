@@ -1,37 +1,43 @@
-import { SET_INGREDIENT_DETAILS, DELETE_INGREDIENT_DETAILS } from '../constants/constants';
-import { TUnionAction } from '../actions/interfaces';
+import {
+  SET_INGREDIENT_DETAILS,
+  DELETE_INGREDIENT_DETAILS,
+} from "../constants/constants";
+import { TUnionAction } from "../actions/interfaces";
 
 type TInitialState = {
   ingredientDetails: {
-    image_large?: string,
-    name?: string,
-    calories?: number,
-    proteins?: number,
-    fat?: number,
-    carbohydrates?: number
-  }
-}
+    image_large?: string;
+    name?: string;
+    calories?: number;
+    proteins?: number;
+    fat?: number;
+    carbohydrates?: number;
+  };
+};
 
 const initialState: TInitialState = {
-  ingredientDetails: {}
-}
+  ingredientDetails: {},
+};
 
-export const ingredientDetailsReducer = (state = initialState, action: TUnionAction): TInitialState => {
+export const ingredientDetailsReducer = (
+  state = initialState,
+  action: TUnionAction
+): TInitialState => {
   switch (action.type) {
     case SET_INGREDIENT_DETAILS: {
       return {
         ...state,
-        ingredientDetails: action.payload
-      }
+        ingredientDetails: action.payload,
+      };
     }
     case DELETE_INGREDIENT_DETAILS: {
       return {
         ...state,
-        ingredientDetails: {}
-      }
+        ingredientDetails: {},
+      };
     }
     default: {
       return state;
     }
   }
-}
+};

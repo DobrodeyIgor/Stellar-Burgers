@@ -1,24 +1,27 @@
-import { GET_ORDER_SUCCESS } from '../constants/constants';
-import { TUnionAction } from '../actions/interfaces';
+import { GET_ORDER_SUCCESS } from "../constants/constants";
+import { TUnionAction } from "../actions/interfaces";
 
 type TInitialState = {
-  id: string
-}
+  id: string;
+};
 
 const initialState: TInitialState = {
-  id: ''
-}
+  id: "",
+};
 
-export const orderDetailsReducer = (state = initialState, action: TUnionAction): TInitialState => {
+export const orderDetailsReducer = (
+  state = initialState,
+  action: TUnionAction
+): TInitialState => {
   switch (action.type) {
     case GET_ORDER_SUCCESS: {
       return {
         ...state,
-        id: action.payload
-      }
+        id: action.payload,
+      };
     }
     default: {
       return state;
     }
   }
-}
+};

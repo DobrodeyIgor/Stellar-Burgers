@@ -9,4 +9,4 @@ export const useForm = (inputValues: { [key: string]: string }) => {
     setValues({ ...values, [name]: value });
   };
   return { values, handleChange, setValues };
-}
+};

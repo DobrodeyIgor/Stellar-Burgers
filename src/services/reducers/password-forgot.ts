@@ -1,24 +1,27 @@
-import { PASSWORD_FORGOT_SUCCESS } from '../constants/constants';
-import { TUnionAction } from '../actions/interfaces';
+import { PASSWORD_FORGOT_SUCCESS } from "../constants/constants";
+import { TUnionAction } from "../actions/interfaces";
 
 type TInitialState = {
-  success: boolean
-}
+  success: boolean;
+};
 
 const initialState: TInitialState = {
-  success: false
-}
+  success: false,
+};
 
-export const passwordForgotReducer = (state = initialState, action: TUnionAction): TInitialState => {
+export const passwordForgotReducer = (
+  state = initialState,
+  action: TUnionAction
+): TInitialState => {
   switch (action.type) {
     case PASSWORD_FORGOT_SUCCESS: {
       return {
         ...state,
-        success: action.payload
-      }
+        success: action.payload,
+      };
     }
     default: {
       return state;
     }
   }
-}
+};

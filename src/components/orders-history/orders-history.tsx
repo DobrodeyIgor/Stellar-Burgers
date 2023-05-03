@@ -1,11 +1,11 @@
-import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 
 export const OrdersHistory = () => {
   return (
     <ConstructorElement
-      text="ЗДЕСЬ ПОКА НИЧЕГО НЕТ :("
+      text='ЗДЕСЬ ПОКА НИЧЕГО НЕТ :('
       price={0}
-      thumbnail={'CurrencyIcon'}
+      thumbnail={"CurrencyIcon"}
     />
-  )
-}
+  );
+};

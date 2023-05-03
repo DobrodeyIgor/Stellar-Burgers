@@ -77,3 +77,20 @@ export type TModalOverlay = {
 export type TPriceCount = {
   onClick: () => void;
 };
+
+export type TLocation = {
+  background: TLocation;
+  hash: string;
+  key: string;
+  pathname: string;
+  search: string;
+  from: string;
+  state: {
+    background?: {
+      pathname: string;
+      search: string;
+      hash: string;
+      key: string;
+    };
+  };
+};

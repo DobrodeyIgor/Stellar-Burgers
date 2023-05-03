@@ -1,6 +1,6 @@
 import styles from "./ingredient-card.module.css";
 import { useDrag } from "react-dnd";
-import { FC, useCallback, useMemo, useState } from "react";
+import { FC, useMemo } from "react";
 import { useSelector, useDispatch } from "../../services/hooks/hooks";
 import {
   CurrencyIcon,
@@ -8,21 +8,16 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { setIgredientDetails } from "../../services/actions/ingredient-details";
 import { TIngredientCard } from "../../services/types/types";
-import { Modal } from "../../components/modal/modal";
-import { IngredientDetails } from "../../components/ingredient-details/ingredient-details";
-import { deleteIgredientDetails } from "../../services/actions/ingredient-details";
 import { Link, useLocation } from "react-router-dom";
 
 export const IngredientCard: FC<TIngredientCard> = ({ ingredient }) => {
   const dispatch = useDispatch();
-  const [openIngredientModal, setIngredientOpenModal] = useState(false);
 
   const elements = useSelector(
     (state) => state.constructorList.constructorList
   );
   const buns = useSelector((state) => state.constructorList.buns);
   const location = useLocation();
-  const authorization = useSelector((state) => state.getLogin.login);
 
   const count = useMemo(
     () =>
@@ -45,32 +40,26 @@ export const IngredientCard: FC<TIngredientCard> = ({ ingredient }) => {
 
   const handleIngredientClick = (event: any) => {
     event.preventDefault();
-    setIngredientOpenModal(true);
     dispatch(setIgredientDetails(ingredient));
   };
 
-  const closeIngredientsModal = useCallback(() => {
-    setIngredientOpenModal(false);
-    dispatch(deleteIgredientDetails());
-  }, [dispatch]);
-
   return (
-    <Link
-      className={styles.cardButton}
-      to={{
-        pathname: `/ingredients/${ingredient._id}`,
-        state: { background: location },
-      }}
-    >
+    <>
       <button
         className={styles.cardButton}
         onClick={handleIngredientClick}
         ref={dragIngredient}
       >
-        {authorization && <img src={ingredient.image} alt={ingredient.name} />}
-        {!authorization && <img src={ingredient.image} alt={ingredient.name} />}
+        <Link
+          to={{
+            pathname: `/ingredients/${ingredient._id}`,
+            state: { background: location },
+          }}
+        >
+          <img src={ingredient.image} alt={ingredient.name} />
+        </Link>
         {count > 0 ? <Counter count={count} size='small' /> : null}
-        <div className={styles.priceBlock}>
+        <div className={styles.price}>
           <p className='text text_type_digits-default pt-2 pr-2'>
             {ingredient.price}
           </p>
@@ -78,12 +67,6 @@ export const IngredientCard: FC<TIngredientCard> = ({ ingredient }) => {
         </div>
         <h3 className='text text_type_main-default pt-2'>{ingredient.name}</h3>
       </button>
-
-      {!authorization && openIngredientModal && (
-        <Modal onClose={closeIngredientsModal} title='Детали ингредиента'>
-          <IngredientDetails />
-        </Modal>
-      )}
-    </Link>
+    </>
   );
 };
