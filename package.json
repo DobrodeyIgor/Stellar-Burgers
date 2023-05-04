@@ -2,6 +2,7 @@
   "name": "react-burger",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://dobrodeyigor.github.io/react-burger/",
   "dependencies": {
     "@types/jest": "27.5.2",
     "@types/node": "16.11.64",
@@ -58,7 +59,7 @@
     "@types/react-router-dom": "5.3.3",
     "cypress": "11.2.0",
     "eslint-plugin-cypress": "^2.12.1",
-    "gh-pages": "4.0.0",
+    "gh-pages": "^4.0.0",
     "jest": "27.5.1",
     "prop-types": "15.8.1"
   }
