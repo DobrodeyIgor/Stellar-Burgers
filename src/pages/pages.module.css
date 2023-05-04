@@ -38,6 +38,17 @@
 }
 
 /* Страница ингредиентов */
+.description {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+  list-style-type: none;
+  width: 516px;
+  margin: 0;
+  padding: 0;
+}
+
+/* Страница ингредиентов */
 .modal {
   display: flex;
   flex-direction: column;
