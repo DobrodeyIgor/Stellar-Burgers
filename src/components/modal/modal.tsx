@@ -22,7 +22,6 @@ const ModalFunction: FC<TModalFunction> = ({ children, onClose, title }) => {
   return createPortal(
     <>
       <ModalOverlay onClose={onClose} />
-
       <div className={styles.modal}>
         <h2 className='text text_type_main-large mt-10 ml-10'>{title}</h2>
         <button className={styles.closeButton} onClick={onClose}>

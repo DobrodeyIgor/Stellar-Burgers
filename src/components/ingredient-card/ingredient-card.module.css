@@ -7,10 +7,9 @@
   color: #fff;
   border: 0;
   cursor: pointer;
-  text-decoration: none;
 }
 
-.priceBlock {
+.price {
   display: flex;
   align-items: flex-end;
 }
