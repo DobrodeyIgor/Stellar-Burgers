@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEventHandler } from "react";
+import React, { FormEventHandler } from "react";
 import styles from "./pages.module.css";
 import {
   Input,
@@ -28,6 +28,8 @@ export const ForgotPassword = () => {
     <form className={styles.form} onSubmit={(event) => emailData(event)}>
       <h3 className='text text_type_main-medium mb-6'>Восстановление пароля</h3>
       <Input
+        type='email'
+        required
         onChange={handleChange}
         value={values.email}
         name={"email"}

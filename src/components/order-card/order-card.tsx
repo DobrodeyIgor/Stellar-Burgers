@@ -86,6 +86,7 @@ export const OrderCard: FC<TOrderProps> = ({ order }) => {
               <img
                 className={styles.ingredientImage}
                 src={image.image_mobile}
+                alt={image.name}
               />
             </li>
           ))}

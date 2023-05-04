@@ -17,6 +17,7 @@ const ModalFunction: FC<TModalFunction> = ({ children, onClose, title }) => {
     return () => {
       document.removeEventListener("keydown", onKeyDown);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return createPortal(

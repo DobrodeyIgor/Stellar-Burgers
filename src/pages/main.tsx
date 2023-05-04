@@ -1,11 +1,14 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import styles from "./pages.module.css";
 import { useSelector } from "../services/hooks/hooks";
 import { BurgerIngredients } from "../components/burger-ingredients/burger-ingredients";
 import { BurgerConstructor } from "../components/burger-constructor/burger-constructor";
 import { PriceCount } from "../components/price-count/price-count";
 import { useHistory } from "react-router-dom";
-import { getOrderNumber } from "../services/actions/order-details";
+import {
+  getOrderNumber,
+  deleteOrderSuccess,
+} from "../services/actions/order-details";
 import { useDispatch } from "../services/hooks/hooks";
 import { Modal } from "../components/modal/modal";
 import { OrderDetails } from "../components/order-details/order-details";
@@ -24,19 +27,20 @@ export const Main = () => {
 
   const [openOrderModal, setOrderOpenModal] = useState(false);
 
-  const handleOrderOpenModal = useCallback(() => {
+  const handleOrderOpenModal = () => {
     if (!authorization) {
       history.replace({ pathname: `/login` });
     } else {
       setOrderOpenModal(true);
       dispatch(getOrderNumber(idList));
     }
-  }, []);
+  };
 
-  const closeOrderModal = useCallback(() => {
+  const closeOrderModal = () => {
     setOrderOpenModal(false);
+    dispatch(deleteOrderSuccess());
     dispatch(clearConstructor());
-  }, []);
+  };
 
   return (
     <>

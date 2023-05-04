@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEventHandler } from "react";
+import React, { FormEventHandler } from "react";
 import styles from "./pages.module.css";
 import {
   PasswordInput,
@@ -34,6 +34,7 @@ export const ResetPassword = () => {
     <form className={styles.form} onSubmit={(event) => resetData(event)}>
       <h3 className='text text_type_main-medium mb-6'>Восстановление пароля</h3>
       <PasswordInput
+        required
         onChange={handleChange}
         value={values.password}
         name={"password"}
@@ -41,6 +42,7 @@ export const ResetPassword = () => {
         extraClass='mb-6'
       />
       <Input
+        required
         onChange={handleChange}
         value={values.token}
         type={"text"}

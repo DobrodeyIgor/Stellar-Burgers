@@ -41,46 +41,52 @@ export const BurgerConstructor = () => {
     <section className={styles.total} ref={dropIngredient}>
       <ul className={styles.list}>
         {buns.map((element) => {
-          if (element.type === "bun")
-            return (
-              <li className={styles.element} key={element.id}>
-                <ConstructorElement
-                  type='top'
-                  isLocked={true}
-                  text={`${element.name} (верх)`}
-                  price={element.price}
-                  thumbnail={element.image}
-                />
-              </li>
-            );
+          if (element.type !== "bun") {
+            return null;
+          }
+          return (
+            <li className={styles.element} key={element.id}>
+              <ConstructorElement
+                type='top'
+                isLocked={true}
+                text={`${element.name} (верх)`}
+                price={element.price}
+                thumbnail={element.image}
+              />
+            </li>
+          );
         })}
         <li className={styles.scroll}>
           {elements.map((element, index) => {
-            if (element.type !== "bun")
-              return (
-                <BurgerElement
-                  element={element}
-                  index={index}
-                  id={element.id}
-                  key={element.id}
-                  deleteElement={deleteElement}
-                />
-              );
+            if (element.type === "bun") {
+              return null;
+            }
+            return (
+              <BurgerElement
+                element={element}
+                index={index}
+                id={element.id}
+                key={element.id}
+                deleteElement={deleteElement}
+              />
+            );
           })}
         </li>
         {buns.map((element) => {
-          if (element.type === "bun")
-            return (
-              <li className={styles.element} key={element.id}>
-                <ConstructorElement
-                  type='bottom'
-                  isLocked={true}
-                  text={`${element.name} (низ)`}
-                  price={element.price}
-                  thumbnail={element.image}
-                />
-              </li>
-            );
+          if (element.type !== "bun") {
+            return null;
+          }
+          return (
+            <li className={styles.element} key={element.id}>
+              <ConstructorElement
+                type='bottom'
+                isLocked={true}
+                text={`${element.name} (низ)`}
+                price={element.price}
+                thumbnail={element.image}
+              />
+            </li>
+          );
         })}
       </ul>
     </section>

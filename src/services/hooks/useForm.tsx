@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState } from "react";
 
 export const useForm = (inputValues: { [key: string]: string }) => {
   const [values, setValues] = useState(inputValues);

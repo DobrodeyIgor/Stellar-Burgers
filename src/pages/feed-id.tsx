@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import styles from "./pages.module.css";
 import { OrderInfo } from "../components/order-info/order-info";
 import {
   wsConnectionClosed,
@@ -14,11 +15,12 @@ export const FeedId = () => {
     return () => {
       dispatch(wsConnectionClosed());
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <>
+    <div className={styles.modal}>
       <OrderInfo />
-    </>
+    </div>
   );
 };

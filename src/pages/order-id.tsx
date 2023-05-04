@@ -14,6 +14,7 @@ export const OrderId = () => {
     return () => {
       dispatch(wsConnectionClosedUser());
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

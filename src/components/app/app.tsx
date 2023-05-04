@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "../../services/hooks/hooks";
 import { AppHeader } from "../app-header/app-header";
 import { getIngredientsList } from "../../services/actions/ingredients-list";
@@ -35,13 +35,17 @@ export const App = () => {
     dispatch(getIngredientsList());
   }, [dispatch]);
 
-  const closeIngredientsModal = useCallback(() => {
-    history.push("/");
+  useEffect(() => {
+    return () => history.push({ state: undefined });
   }, []);
 
-  const closeModal = useCallback(() => {
+  const closeIngredientsModal = () => {
+    history.push("/");
+  };
+
+  const closeModal = () => {
     history.goBack();
-  }, []);
+  };
 
   return (
     <DndProvider backend={HTML5Backend}>

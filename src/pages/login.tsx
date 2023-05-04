@@ -1,18 +1,20 @@
-import React, { ChangeEvent, FormEventHandler } from "react";
+import React, { FormEventHandler } from "react";
 import styles from "./pages.module.css";
 import {
   EmailInput,
   PasswordInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "../services/hooks/hooks";
 import { getUserLogin } from "../services/actions/login";
 import { useForm } from "../services/hooks/useForm";
+import { TLocation } from "../services/types/types";
 
 export const LoginPage = () => {
   const dispatch = useDispatch();
   const authorization = useSelector((state) => state.getLogin.login);
+  const location = useLocation<TLocation>();
 
   const { values, handleChange } = useForm({ email: "", password: "" });
 
@@ -22,8 +24,7 @@ export const LoginPage = () => {
   };
 
   if (authorization) {
-    const searchParams = new URLSearchParams(window.location.search);
-    return <Redirect to={searchParams.get("retpath") || "/"} />;
+    return <Redirect to={location?.state?.from ?? "/"} />;
   }
 
   return (

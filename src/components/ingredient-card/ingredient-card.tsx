@@ -6,13 +6,13 @@ import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { setIgredientDetails } from "../../services/actions/ingredient-details";
-import { TIngredientCard } from "../../services/types/types";
+import { setIngredientDetails } from "../../services/actions/ingredient-details";
+import { TIngredientCard, TLocation } from "../../services/types/types";
 import { Link, useLocation } from "react-router-dom";
 
 export const IngredientCard: FC<TIngredientCard> = ({ ingredient }) => {
   const dispatch = useDispatch();
-  const location = useLocation();
+  const location = useLocation<TLocation>();
 
   const elements = useSelector(
     (state) => state.constructorList.constructorList
@@ -40,7 +40,7 @@ export const IngredientCard: FC<TIngredientCard> = ({ ingredient }) => {
 
   const handleIngredientClick = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    dispatch(setIgredientDetails(ingredient));
+    dispatch(setIngredientDetails(ingredient));
   };
 
   return (

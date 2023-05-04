@@ -14,16 +14,17 @@ export const Orders = () => {
           <ul className={styles.list}>
             {orders &&
               orders.slice(0, 30).map((order) => {
-                if (order.status === "done") {
-                  return (
-                    <li
-                      key={order._id}
-                      className={`${styles.textColor} text text_type_digits-default`}
-                    >
-                      {order.number}
-                    </li>
-                  );
+                if (order.status !== "done") {
+                  return null;
                 }
+                return (
+                  <li
+                    key={order._id}
+                    className={`${styles.textColor} text text_type_digits-default`}
+                  >
+                    {order.number}
+                  </li>
+                );
               })}
           </ul>
         </div>
@@ -31,13 +32,14 @@ export const Orders = () => {
           <h3 className='text text_type_main-medium'>В работе:</h3>
           <ul className={styles.list}>
             {orders.map((order) => {
-              if (order.status === "pending") {
-                return (
-                  <li key={order._id} className='text text_type_digits-default'>
-                    {order.number}
-                  </li>
-                );
+              if (order.status !== "pending") {
+                return null;
               }
+              return (
+                <li key={order._id} className='text text_type_digits-default'>
+                  {order.number}
+                </li>
+              );
             })}
           </ul>
         </div>
