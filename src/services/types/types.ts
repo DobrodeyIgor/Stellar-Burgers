@@ -94,3 +94,24 @@ export type TLocation = {
     };
   };
 };
+
+export type TOrder = {
+  ingredients: Array<string>;
+  _id: string;
+  status: string;
+  number: number;
+  createdAt: string;
+  updatedAt: string;
+  name: string;
+};
+
+export type TOrderProps = {
+  order: TOrder;
+};
+
+export type TOrders = {
+  success: boolean;
+  orders: Array<TOrder>;
+  total: number;
+  totalToday: number;
+};

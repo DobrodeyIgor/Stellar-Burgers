@@ -1,6 +1,6 @@
+import React, { FC, MouseEvent, useMemo } from "react";
 import styles from "./ingredient-card.module.css";
 import { useDrag } from "react-dnd";
-import { FC, useMemo } from "react";
 import { useSelector, useDispatch } from "../../services/hooks/hooks";
 import {
   CurrencyIcon,
@@ -12,12 +12,12 @@ import { Link, useLocation } from "react-router-dom";
 
 export const IngredientCard: FC<TIngredientCard> = ({ ingredient }) => {
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const elements = useSelector(
     (state) => state.constructorList.constructorList
   );
   const buns = useSelector((state) => state.constructorList.buns);
-  const location = useLocation();
 
   const count = useMemo(
     () =>
@@ -38,7 +38,7 @@ export const IngredientCard: FC<TIngredientCard> = ({ ingredient }) => {
     []
   );
 
-  const handleIngredientClick = (event: any) => {
+  const handleIngredientClick = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     dispatch(setIgredientDetails(ingredient));
   };

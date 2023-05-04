@@ -1,4 +1,4 @@
-import { getCookie } from "./cookie";
+import { getCookie, setCookie, deleteCookie } from "./cookie";
 
 interface TApiConfig {
   baseUrl: string;
@@ -17,7 +17,7 @@ interface TApiConfig {
 }
 
 const apiConfig = {
-  baseUrl: `https://norma.nomoreparties.space/api`,
+  baseUrl: "https://norma.nomoreparties.space/api",
   defaultHeaders: {
     "Content-Type": "application/json",
   },
@@ -90,6 +90,20 @@ class Api {
     return fetch(url, options).then(this._handleResponse);
   }
 
+  _requestRefreshToken(url: string, options: IOptions) {
+    return fetch(url, options)
+      .then(this._handleResponse)
+      .catch((error) => {
+        if (error === "403") console.log(error);
+        deleteCookie("access");
+        this.refreshToken()
+          .then(({ accessToken }) => {
+            setCookie("access", accessToken.split("Bearer ")[1]);
+          })
+          .then(() => this._request(url, options));
+      });
+  }
+
   _handleResponse(res: Response) {
     if (res.ok) {
       return res.json();
@@ -108,7 +122,10 @@ class Api {
   requestOrderDetails(idList: string[]) {
     const options = {
       method: "POST",
-      headers: this.defaultHeaders,
+      headers: {
+        authorization: "Bearer " + getCookie("access"),
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         ingredients: idList,
       }),
@@ -172,7 +189,10 @@ class Api {
         token: getCookie("refresh"),
       }),
     };
-    return this._request(this._makeUrl(this.logoutEndpoint), options);
+    return this._requestRefreshToken(
+      this._makeUrl(this.logoutEndpoint),
+      options
+    );
   }
 
   refreshToken() {

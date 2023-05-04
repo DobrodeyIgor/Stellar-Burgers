@@ -13,7 +13,7 @@ const AppHeaderFunction = () => {
 
   return (
     <header className={styles.header}>
-      <nav className={styles.headerNavigation}>
+      <nav className={styles.navigation}>
         <div className={styles.twoBlocks}>
           <NavLink to='/' exact={true} className={styles.link}>
             <BurgerIcon type={pathname === "/" ? "primary" : "secondary"} />
@@ -28,18 +28,18 @@ const AppHeaderFunction = () => {
             </p>
           </NavLink>
 
-          <a href='#' className={styles.link}>
-            <ListIcon type={pathname === "#" ? "primary" : "secondary"} />
+          <NavLink to='/feed' exact={true} className={styles.link}>
+            <ListIcon type={pathname === "/feed" ? "primary" : "secondary"} />
             <p
               className={
-                pathname === "#"
+                pathname === "/feed"
                   ? `${styles.active} text text_type_main-default`
                   : `text text_type_main-default text_color_inactive`
               }
             >
               Лента заказов
             </p>
-          </a>
+          </NavLink>
         </div>
 
         <Logo />

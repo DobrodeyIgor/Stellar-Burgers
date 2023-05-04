@@ -18,11 +18,10 @@
 
 /* Страница профиля пользователя */
 .profile {
-  display: grid;
-  grid-template-columns: 320px 480px 320px;
-  column-gap: 60px;
-  justify-content: center;
-  margin-top: 180px;
+  display: flex;
+  max-width: 1240px;
+  margin: auto;
+  gap: 60px;
 }
 
 /* Главная страница */
@@ -35,17 +34,6 @@
 .twoBlocks {
   display: flex;
   flex-direction: column;
-}
-
-/* Страница ингредиентов */
-.description {
-  display: flex;
-  justify-content: space-around;
-  text-align: center;
-  list-style-type: none;
-  width: 516px;
-  margin: 0;
-  padding: 0;
 }
 
 /* Страница ингредиентов */
@@ -68,4 +56,11 @@
   text-decoration: underline;
   color: #ffffff;
   cursor: pointer;
+}
+
+/* Страница ленты заказов */
+.feed {
+  display: flex;
+  gap: 60px;
+  justify-content: center;
 }
