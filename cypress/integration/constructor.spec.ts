@@ -66,19 +66,19 @@ describe("service is available", function () {
   });
 
   it("should login", function () {
-    const email = "hgjghj@gbkg.ru";
-    const password = "sfsdffsdf";
+    const email = "dobrodey.igor@yandex.ru";
+    const password = "123456";
     cy.get("input").first().type(email);
     cy.get("input").last().type(password);
     cy.get("button").click();
   });
 
   it("should open order modal", function () {
-    cy.wait(3000).get("button").contains("Оформить заказ").click();
+    cy.wait(1000).get("button").contains("Оформить заказ").click();
   });
 
   it("should show order number and close modal ", function () {
-    cy.wait(50000).get("[class^=order-details_title]").and("exist");
+    cy.wait(20000).get("[class^=order-details_title]").and("exist");
     cy.get(closeButtonClass).click();
     cy.get(burgerConstructorIngredientClass).and("not.exist");
   });

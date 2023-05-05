@@ -1,23 +1,23 @@
 export const baseUrl = "http://localhost:3000/";
 
 export const user = {
-  name: "hjg",
-  email: "hgjghj@gbkg.ru",
+  name: "Игорь",
+  email: "dobrodey.igor@yandex.ru",
 };
 
 export const payload = {
   success: true,
   user: {
-    name: "hjg",
-    email: "hgjghj@gbkg.ru",
+    name: "Игорь",
+    email: "dobrodey.igor@yandex.ru",
   },
 };
 
 export const payload2 = {
   success: true,
   user: {
-    name: "Pavel",
-    email: "pavel.vas@mail.ru",
+    name: "Igor",
+    email: "dobr@yandex.ru",
   },
 };
 
