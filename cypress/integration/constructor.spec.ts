@@ -66,8 +66,8 @@ describe("service is available", function () {
   });
 
   it("should login", function () {
-    const email = "dobrodey.igor@yandex.ru";
-    const password = "123456";
+    const email = "hgjghj@gbkg.ru";
+    const password = "sfsdffsdf";
     cy.get("input").first().type(email);
     cy.get("input").last().type(password);
     cy.get("button").click();
