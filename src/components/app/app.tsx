@@ -39,10 +39,6 @@ export const App = () => {
     return () => history.push({ state: undefined });
   }, []);
 
-  useEffect(() => {
-    return () => history.push({ state: undefined });
-  }, []);
-
   const closeIngredientsModal = () => {
     history.push("/");
   };
