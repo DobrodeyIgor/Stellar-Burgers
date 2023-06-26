@@ -33,4 +33,4 @@
 
 **Ссылка на сайт**
 
-- [Stellar Burgers](https://dobrodeyigor.github.io/react-burger/)
+- [Stellar Burgers](https://dobrodeyigor.github.io/Stellar-Burgers/)
